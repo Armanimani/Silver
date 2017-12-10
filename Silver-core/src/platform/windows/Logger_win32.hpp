@@ -1,12 +1,11 @@
 #pragma once
 
-#include <fstream>
 #include <memory>
 #include <Windows.h>
 #include <iostream>
 
 #include "config.hpp"
-#include "util\logger\platform\logger_base.hpp"
+#include "util\logger\logger_base.hpp"
 
 namespace silver::core::impl
 {
@@ -38,7 +37,6 @@ namespace silver::core::impl
 		static std::unique_ptr<Logger_win32> instance_;
 
 		HANDLE handle_;
-		std::ofstream file_;
 
 		std::string get_time_() const noexcept;
 		template <typename T>

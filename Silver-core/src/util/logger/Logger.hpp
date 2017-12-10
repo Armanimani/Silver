@@ -1,10 +1,6 @@
 #pragma once
 
-#include "util\logger\platform\Logger_win32.hpp"
-
-namespace silver::core
-{
-	#ifdef _WIN32
-		using Logger = impl::Logger_win32;
-	#endif
-}
+#ifdef _WIN32
+	#include "platform\windows\Logger_win32.hpp"
+	using Logger = silver::core::impl::Logger_win32;
+#endif

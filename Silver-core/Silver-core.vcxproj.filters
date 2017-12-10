@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\window\WindowSettings.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\app\Application.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util\logger\Logger.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\logger\platform\Logger_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\config.hpp">
@@ -33,10 +27,34 @@
     <ClInclude Include="src\exceptions\Exception.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\logger\platform\logger_base.hpp">
+    <ClInclude Include="src\common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\common.hpp">
+    <ClInclude Include="src\settings\WindowSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\settings\Settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clock\Clock_interface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clock\Clock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\logger\logger_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\windows\Logger_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\windows\Clock_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\settings\ApplicationSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clock\TimeStep.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +62,10 @@
     <ClCompile Include="src\app\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\logger\platform\Logger_win32.cpp">
+    <ClCompile Include="src\platform\windows\Logger_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\windows\Clock_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

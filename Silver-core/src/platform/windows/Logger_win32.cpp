@@ -1,11 +1,10 @@
-#include "util\logger\platform\Logger_win32.hpp"
+#include "platform\windows\Logger_win32.hpp"
 
 namespace silver::core::impl
 {
 	Logger_win32::Logger_win32()
 	{
 		handle_ = GetStdHandle(STD_OUTPUT_HANDLE);
-		file_.open("silver.log");
 	}
 
 	std::unique_ptr<Logger_win32> Logger_win32::instance_;

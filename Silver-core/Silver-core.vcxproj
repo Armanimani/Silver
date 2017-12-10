@@ -156,17 +156,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\app\Application.hpp" />
+    <ClInclude Include="src\clock\Clock.hpp" />
+    <ClInclude Include="src\clock\Clock_interface.hpp" />
+    <ClInclude Include="src\clock\TimeStep.hpp" />
     <ClInclude Include="src\common.hpp" />
     <ClInclude Include="src\config.hpp" />
     <ClInclude Include="src\exceptions\Exception.hpp" />
+    <ClInclude Include="src\platform\windows\Clock_win32.hpp" />
+    <ClInclude Include="src\settings\ApplicationSettings.hpp" />
+    <ClInclude Include="src\settings\Settings.hpp" />
     <ClInclude Include="src\util\logger\Logger.hpp" />
-    <ClInclude Include="src\util\logger\platform\logger_base.hpp" />
-    <ClInclude Include="src\util\logger\platform\Logger_win32.hpp" />
-    <ClInclude Include="src\window\WindowSettings.hpp" />
+    <ClInclude Include="src\util\logger\logger_base.hpp" />
+    <ClInclude Include="src\platform\windows\Logger_win32.hpp" />
+    <ClInclude Include="src\settings\WindowSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
-    <ClCompile Include="src\util\logger\platform\Logger_win32.cpp" />
+    <ClCompile Include="src\platform\windows\Clock_win32.cpp" />
+    <ClCompile Include="src\platform\windows\Logger_win32.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,22 +2,28 @@
 
 #include <string>
 
-#include "window\WindowSettings.hpp"
+#include "clock\Clock.hpp"
+#include "settings\Settings.hpp"
 
 namespace silver::core
 {
 	class Application
 	{
 	public:
-		Application(const std::string name, const WindowSettings windowSettings);
+		Application(const Settings settings);
 		~Application();
 
 		void start();
 
 	private:
+		Clock clock_;
+
 		std::string name_;
-		WindowSettings windowSettings_;
+		ApplicationSettings settings_;
+
+		bool running_ { true };
 
 		void init_();
+		void run_();
 	};
 }
