@@ -10,7 +10,7 @@ namespace silver::core
 	public:
 		Exception(const std::string file, const int line, const T object) : file_(std::move(file)), line_(std::move(line)), object_(std::move(object)) {}
 
-		T& get() const;
+		T get() const;
 		std::string get_info() const;
 
 	private:
@@ -20,7 +20,7 @@ namespace silver::core
 	};
 
 	template<typename T>
-	T& Exception<T>::get() const
+	T Exception<T>::get() const
 	{
 		return object_;
 	}

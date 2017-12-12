@@ -8,11 +8,6 @@ namespace silver::core::impl
 	template <typename T>
 	static std::string toString(T&& object)
 	{
-		return { "Unsupported type {" + std::string(typeid(object).name()) + "}" };
-	}
-
-	static std::string toString(std::string& object)
-	{
 		return { object };
 	}
 

@@ -1,9 +1,12 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
-#include "clock\Clock.hpp"
 #include "settings\Settings.hpp"
+#include "window\Window_API.hpp"
+#include "clock\Clock_API.hpp"
+#include "graphic\system\Context.hpp"
 
 namespace silver::core
 {
@@ -16,9 +19,10 @@ namespace silver::core
 		void start();
 
 	private:
-		Clock clock_;
+		std::unique_ptr<Clock_API> clock_;
+		std::unique_ptr<Window_API> window_;
+		std::unique_ptr<graphic::Context> context_;
 
-		std::string name_;
 		ApplicationSettings settings_;
 
 		bool running_ { true };

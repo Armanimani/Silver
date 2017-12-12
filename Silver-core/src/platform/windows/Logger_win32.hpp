@@ -34,7 +34,7 @@ namespace silver::core::impl
 			message = 7,
 		};
 
-		static std::unique_ptr<Logger_win32> instance_;
+		static std::unique_ptr<Logger_win32> s_instance_;
 
 		HANDLE handle_;
 

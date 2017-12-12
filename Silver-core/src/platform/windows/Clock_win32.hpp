@@ -2,11 +2,11 @@
 
 #include <Windows.h>
 
-#include "clock\Clock_interface.hpp"
+#include "clock\Clock_API.hpp"
 
 namespace silver::core
 {
-	class Clock_win32 : public Clock_interface
+	class Clock_win32 : public Clock_API
 	{
 	public:
 		Clock_win32();
@@ -15,7 +15,7 @@ namespace silver::core
 		float time() noexcept override;
 
 	private:
-		LARGE_INTEGER timeFrequency_;
-		LARGE_INTEGER startingTime_;
+		LARGE_INTEGER timeFrequency_ {};
+		LARGE_INTEGER startingTime_ {};
 	};
 }

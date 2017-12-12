@@ -2,5 +2,8 @@
 
 #ifdef _WIN32
 	#include "platform\windows\Clock_win32.hpp"
-	using Clock = silver::core::Clock_win32;
+	namespace silver::core
+	{
+		using Clock = Clock_win32;
+	}
 #endif

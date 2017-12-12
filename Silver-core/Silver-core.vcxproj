@@ -102,6 +102,10 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -117,6 +121,10 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -135,6 +143,10 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,27 +165,49 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\app\Application.hpp" />
     <ClInclude Include="src\clock\Clock.hpp" />
-    <ClInclude Include="src\clock\Clock_interface.hpp" />
+    <ClInclude Include="src\clock\Clock_API.hpp" />
     <ClInclude Include="src\clock\TimeStep.hpp" />
     <ClInclude Include="src\common.hpp" />
     <ClInclude Include="src\config.hpp" />
+    <ClInclude Include="src\event\Event.hpp" />
+    <ClInclude Include="src\event\keyboard\KeyboardEvent.hpp" />
+    <ClInclude Include="src\event\keyboard\KeyboardPressedEvent.hpp" />
+    <ClInclude Include="src\exceptions\CriticalException.hpp" />
     <ClInclude Include="src\exceptions\Exception.hpp" />
+    <ClInclude Include="src\graphic\system\Context.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLContext.hpp" />
+    <ClInclude Include="src\graphic\system\RenderingContext.hpp" />
     <ClInclude Include="src\platform\windows\Clock_win32.hpp" />
+    <ClInclude Include="src\platform\windows\Window_win32.hpp" />
     <ClInclude Include="src\settings\ApplicationSettings.hpp" />
     <ClInclude Include="src\settings\Settings.hpp" />
     <ClInclude Include="src\util\logger\Logger.hpp" />
     <ClInclude Include="src\util\logger\logger_base.hpp" />
     <ClInclude Include="src\platform\windows\Logger_win32.hpp" />
     <ClInclude Include="src\settings\WindowSettings.hpp" />
+    <ClInclude Include="src\window\Window.hpp" />
+    <ClInclude Include="src\window\Window_API.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
+    <ClCompile Include="src\event\Event.cpp" />
+    <ClCompile Include="src\event\keyboard\KeyboardEvent.cpp" />
+    <ClCompile Include="src\event\keyboard\KeyboardPressedEvent.cpp" />
+    <ClCompile Include="src\exceptions\CriticalException.cpp" />
+    <ClCompile Include="src\graphic\system\Context.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLContext.cpp" />
     <ClCompile Include="src\platform\windows\Clock_win32.cpp" />
     <ClCompile Include="src\platform\windows\Logger_win32.cpp" />
+    <ClCompile Include="src\platform\windows\Window_win32.cpp" />
+    <ClCompile Include="src\window\Window_API.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
