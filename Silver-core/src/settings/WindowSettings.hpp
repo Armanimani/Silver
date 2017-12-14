@@ -1,17 +1,18 @@
 #pragma once
 
 #include <string>
+#include "math\math.hpp"
 
 namespace silver::core
 {
 	struct WindowSettings
 	{
 		std::string title { "silver engine" };
-		unsigned int width { 800 };
-		unsigned int height { 600 };
+		vec2ui size { 800, 600 };
 		bool vSync = false;
 		bool fullScreen = false;
-		bool focus = true;
+		bool focus = false;
+		bool show = false;
 
 		unsigned int colorBit { 32 };
 		unsigned int depthBit { 24 };

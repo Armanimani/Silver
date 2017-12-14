@@ -16,13 +16,14 @@ namespace silver::core
 		void create() override;
 		void show(const bool state = true) override;
 		void update() override;
+		void focus(const bool state = true) noexcept override;
+		
+		vec2ui mouse_position() const noexcept override;
 
 		void set_width(const unsigned int width) noexcept override;
 		void set_height(const unsigned int height) noexcept override;
+		void set_size(const vec2ui size) noexcept override;
 		void set_title(const std::string& title) noexcept override;
-
-		void focus(const bool state = true) noexcept override;
-
 
 	private:
 		static HINSTANCE s_hInstance_;
@@ -45,8 +46,14 @@ namespace silver::core
 		void set_pixelFormatDescriptor_();
 		void create_renderingContext_();
 
-		void focus_callback_(bool state) override;
-		void resize_callback_(const unsigned int width, const unsigned int height) override;
-		void close_callback_() override;
+		void resizeEvent_handler_(const unsigned int width, const unsigned int height) noexcept;
+		void focus_handler_(const bool state) noexcept;
+		void close_handler_() const noexcept;
+		void create_handler_() const noexcept;
+		void destroy_handler_() const noexcept;
+		void show_handler_(const bool state) noexcept;
+
+		void keyboardEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept;
+		void mouseEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept;
 	};
 }
