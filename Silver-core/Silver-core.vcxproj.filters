@@ -72,12 +72,6 @@
     <ClInclude Include="src\graphic\system\OpenGL\GLContext.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphic\system\Context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphic\system\RenderingContext.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\event\keyboard\KeyboardEvent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,6 +144,24 @@
     <ClInclude Include="src\event\mouse\MouseWheelEvent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\input\InputManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\context\RenderingContext.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\context\Context.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\layer\Layer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\layer\layers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\layer\console\LoggerLayer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp">
@@ -168,9 +180,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphic\system\OpenGL\GLContext.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphic\system\Context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\window\Window_API.cpp">
@@ -234,6 +243,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\event\mouse\MouseWheelEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic\context\Context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic\layer\Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic\layer\console\LoggerLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

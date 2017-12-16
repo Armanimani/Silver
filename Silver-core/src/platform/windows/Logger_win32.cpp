@@ -2,16 +2,16 @@
 
 namespace silver::core::impl
 {
-	Logger_win32::Logger_win32()
-	{
-		handle_ = GetStdHandle(STD_OUTPUT_HANDLE);
-	}
-
 	std::unique_ptr<Logger_win32> Logger_win32::s_instance_;
 	const Logger_win32& Logger_win32::instance()
 	{
 		if (!s_instance_) s_instance_ = std::make_unique<Logger_win32>();
 		return *s_instance_;
+	}
+
+	Logger_win32::Logger_win32()
+	{
+		handle_ = GetStdHandle(STD_OUTPUT_HANDLE);
 	}
 
 	std::string Logger_win32::get_time_() const noexcept

@@ -9,8 +9,7 @@
 
 namespace silver::core
 {
-	const char* WINDOW_CLASS_NAME = "silver-window";
-
+	std::string Window_win32::s_windowClassName = "silver-window";
 	HINSTANCE Window_win32::s_hInstance_ = nullptr;
 	std::map<HWND, Window_win32*> Window_win32::s_handles_;
 	bool Window_win32::s_windowRegistered = false;
@@ -21,7 +20,7 @@ namespace silver::core
 	{
 		if (hRC_)
 		{
-			context_.release();
+			graphic::Context::instance();
 		}
 
 		if (hDC_ && !ReleaseDC(hWnd_, hDC_))
@@ -34,7 +33,7 @@ namespace silver::core
 			Logger::instance().log_error("Unable to destory the window.");
 		}
 
-		if (s_windowRegistered && !UnregisterClass(WINDOW_CLASS_NAME, s_hInstance_))
+		if (s_windowRegistered && !UnregisterClass(s_windowClassName.c_str(), s_hInstance_))
 		{
 			Logger::instance().log_error("Unable to unrigister the window class.");
 		}
@@ -92,6 +91,54 @@ namespace silver::core
 		return { static_cast<unsigned int>(pos.x), static_cast<unsigned int>(pos.y) };
 	}
 
+	void Window_win32::set_mouse_position(const vec2ui& pos) const noexcept
+	{
+		SetCursorPos(pos.x, pos.y);
+	}
+
+	void Window_win32::lock_mouse(const bool state) noexcept
+	{
+		settings_.mouseLock = state;
+		if (state)
+		{
+			RECT rect;
+			GetWindowRect(hWnd_, &rect);
+			ClipCursor(&rect);
+		}
+		else
+		{
+			Logger::instance().log_warning("lock_mouse(false) not implemented yet");
+		}
+	}
+
+	void Window_win32::show_mouse(const bool state) noexcept
+	{
+		settings_.mouseShow = state;
+		if (state)
+		{
+			ShowCursor(true);
+		}
+		else
+		{
+			ShowCursor(false);
+		}
+	}
+
+	vec2ui Window_win32::screen_resolution() const noexcept
+	{
+		return { static_cast<unsigned int>(GetSystemMetrics(SM_CXSCREEN)), static_cast<unsigned int>(GetSystemMetrics(SM_CYSCREEN)) };
+	}
+
+	unsigned int Window_win32::screen_resolutionX() const noexcept
+	{
+		return static_cast<unsigned int>(GetSystemMetrics(SM_CXSCREEN));
+	}
+
+	unsigned int Window_win32::screen_resolutionY() const noexcept
+	{
+		return static_cast<unsigned int>(GetSystemMetrics(SM_CYSCREEN));
+	}
+
 	void Window_win32::set_width(const unsigned int value) noexcept
 	{
 		settings_.size.x = value;
@@ -116,7 +163,7 @@ namespace silver::core
 		SetWindowText(hWnd_, title.c_str());
 	}
 
-	Window_win32* Window_win32::get_window(const HWND& hwnd)
+	Window_win32* Window_win32::get_window_(const HWND& hwnd)
 	{
 		return s_handles_[hwnd];
 	}
@@ -133,7 +180,7 @@ namespace silver::core
 	void Window_win32::register_windowClass_()
 	{
 		WNDCLASS windowClass { 0 };
-		windowClass.lpszClassName = WINDOW_CLASS_NAME;
+		windowClass.lpszClassName = s_windowClassName.c_str();
 		windowClass.style = CS_GLOBALCLASS | CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 		windowClass.hInstance = s_hInstance_;
 		windowClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
@@ -161,7 +208,7 @@ namespace silver::core
 
 		int windowX = (GetSystemMetrics(SM_CXSCREEN) - settings_.size.x) / 2;
 		int windowY = (GetSystemMetrics(SM_CYSCREEN) - settings_.size.y) / 2;
-		hWnd_ = CreateWindowExA(dwExStyle, WINDOW_CLASS_NAME, settings_.title.c_str(), dwStyle, windowX, windowY, settings_.size.x, settings_.size.y, nullptr, nullptr, s_hInstance_, nullptr);
+		hWnd_ = CreateWindowExA(dwExStyle, s_windowClassName.c_str(), settings_.title.c_str(), dwStyle, windowX, windowY, settings_.size.x, settings_.size.y, nullptr, nullptr, s_hInstance_, nullptr);
 		
 		if (!hWnd_)
 		{
@@ -204,53 +251,63 @@ namespace silver::core
 				throw SILVER_EXCEPTION_CRITICAL("Unable to set pixel format.");
 			}
 		}
-		context_.create(static_cast<void*>(hDC_));
+		graphic::Context::instance()->create(static_cast<void*>(hDC_));
 	}
 
 	void Window_win32::create_renderingContext_()
 	{
-		context_.create(static_cast<void*>(hDC_));
-		hRC_ = static_cast<HGLRC> (context_.renderingContext());
+		graphic::Context::instance()->create(static_cast<void*>(hDC_));
+		hRC_ = static_cast<HGLRC> (graphic::Context::instance()->renderingContext());
 	}
 
-	void Window_win32::resizeEvent_handler_(const unsigned int width, const unsigned int height) noexcept
+	void Window_win32::windowEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) noexcept
 	{
-		settings_.size = { width, height };
+		switch (msg)
+		{
+			case WM_SIZE:
+			{
+				auto width = static_cast<unsigned int>(LOWORD(lparam));
+				auto height = static_cast<unsigned int>(HIWORD(lparam));
+				settings_.size = { width, height };
 
-		auto e = std::make_unique<event::WindowResizeEvent>(settings_.size);
-		resize_callback_(std::move(e));
-	}
-	
-	void Window_win32::focus_handler_(const bool state) noexcept
-	{
-		settings_.focus = state;
-		auto e = std::make_unique<event::WindowFocusEvent>(state);
-		focus_callback_(std::move(e));
-	}
-
-	void Window_win32::close_handler_() const noexcept
-	{
-		auto e = std::make_unique<event::WindowCloseEvent>();
-		close_callback_(std::move(e));
-	}
-
-	void Window_win32::create_handler_() const noexcept
-	{
-		auto e = std::make_unique<event::WindowCreateEvent>();
-		create_callback_(std::move(e));
-	}
-
-	void Window_win32::destroy_handler_() const noexcept
-	{
-		auto e = std::make_unique<event::WindowDestroyEvent>();
-		destroy_callback_(std::move(e));
-	}
-
-	void Window_win32::show_handler_(const bool state) noexcept
-	{
-		settings_.show = state;
-		auto e = std::make_unique<event::WindowShowEvent>(state);
-		show_callback_(std::move(e));
+				auto e = std::make_unique<event::WindowResizeEvent>(settings_.size);
+				window_callback_(std::move(e));
+				break;
+			}
+			case WM_SETFOCUS:
+			{
+				settings_.focus = true;
+				auto e = std::make_unique<event::WindowFocusEvent>(true);
+				window_callback_(std::move(e));
+				break;
+			}
+			case WM_KILLFOCUS:
+			{
+				settings_.focus = false;
+				auto e = std::make_unique<event::WindowFocusEvent>(false);
+				window_callback_(std::move(e));
+				break;
+			}
+			case WM_CLOSE:
+			{
+				auto e = std::make_unique<event::WindowCloseEvent>();
+				window_callback_(std::move(e));
+				break;
+			}
+			case WM_DESTROY:
+			{
+				auto e = std::make_unique<event::WindowDestroyEvent>();
+				window_callback_(std::move(e));
+				break;
+			}
+			case WM_SHOWWINDOW:
+			{
+				settings_.show = static_cast<bool>(wparam);
+				auto e = std::make_unique<event::WindowShowEvent>(static_cast<bool>(wparam));
+				window_callback_(std::move(e));
+				break;
+			}
+		}
 	}
 
 	void Window_win32::keyboardEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept
@@ -346,44 +403,19 @@ namespace silver::core
 
 	LRESULT CALLBACK Window_win32::windowProc_callback(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
-		auto window = get_window(hwnd);
+		auto window = get_window_(hwnd);
 
 		switch (msg)
 		{
 			case WM_CREATE:
-			{
-				window->create_handler_();
-				break;
-			}
 			case WM_SIZE:
-			{
-				window->resizeEvent_handler_(LOWORD(lparam), HIWORD(lparam));
-				break;
-			}
 			case WM_SETFOCUS:
-			{
-				window->focus_handler_(true);
-				break;
-			}
 			case WM_KILLFOCUS:
-			{
-				window->focus_handler_(false);
-				break;
-			}
-
 			case WM_CLOSE:
-			{
-				window->close_handler_();
-				break;
-			}
 			case WM_DESTROY:
-			{
-				window->destroy_handler_();
-				break;
-			}
 			case WM_SHOWWINDOW:
 			{
-				window->show_handler_(wparam);
+				window->windowEvent_handler_(msg, wparam, lparam);
 				break;
 			}
 			case WM_KEYDOWN:
@@ -410,3 +442,5 @@ namespace silver::core
 		return DefWindowProc(hwnd, msg, wparam, lparam);
 	}
 }
+
+// NOTE: maybe we can add functionality to disable some of these events from creation or dispatching them such as mouse move which can produce lots of events

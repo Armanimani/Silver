@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphic\system\RenderingContext.hpp"
+#include "graphic\context\RenderingContext.hpp"
 
 namespace silver::core
 {

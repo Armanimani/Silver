@@ -3,9 +3,20 @@
 #include "util\logger\Logger.hpp"
 #include "util\translator\Translator.hpp"
 #include "event\events.hpp"
+#include "input\InputManager.hpp"
 
 namespace silver::core
 {
+	bool Window_API::is_mouse_locked() const noexcept
+	{
+		return settings_.mouseLock;
+	}
+
+	bool Window_API::is_mouse_visible() const noexcept
+	{
+		return settings_.mouseShow;
+	}
+
 	unsigned int Window_API::width() const noexcept
 	{
 		return settings_.size.x;
@@ -14,6 +25,11 @@ namespace silver::core
 	unsigned int Window_API::height() const noexcept
 	{
 		return settings_.size.y;
+	}
+
+	vec2ui Window_API::size() const noexcept
+	{
+		return settings_.size;
 	}
 
 	std::string Window_API::title() const noexcept
@@ -36,71 +52,18 @@ namespace silver::core
 		return settings_.show;
 	}
 
-	void Window_API::resize_callback_(std::unique_ptr<event::WindowResizeEvent>&& e) const noexcept
+	void Window_API::window_callback_(std::unique_ptr<event::WindowEvent>&& e) const noexcept
 	{
-		Logger::instance().log(*e);
-	}
-
-	void Window_API::focus_callback_(std::unique_ptr<event::WindowFocusEvent>&& e) const noexcept
-	{
-		Logger::instance().log(*e);
-	}
-
-	void Window_API::close_callback_(std::unique_ptr<event::WindowCloseEvent>&& e) const noexcept
-	{
-		Logger::instance().log(*e);
-	}
-
-	void Window_API::create_callback_(std::unique_ptr<event::WindowCreateEvent>&& e) const noexcept
-	{
-		Logger::instance().log(*e);
-	}
-
-	void Window_API::destroy_callback_(std::unique_ptr<event::WindowDestroyEvent>&& e) const noexcept
-	{
-		Logger::instance().log(*e);
-	}
-
-	void Window_API::show_callback_(std::unique_ptr<event::WindowShowEvent>&& e) const noexcept
-	{
-		Logger::instance().log(*e);
+		InputManager::instance().catch_windowEvent(std::move(e));
 	}
 
 	void Window_API::keyboard_callback_(std::unique_ptr<event::KeyboardEvent>&& e) const noexcept
 	{
-		if (e->state() == event::KeyboardEvent::State::PRESSED)
-		{
-			auto p = static_cast<event::KeyboardPressedEvent*>(e.get());
-			Logger::instance().log(*p);
-		}
-		else if (e->state() == event::KeyboardEvent::State::RELEASED)
-		{
-			auto p = static_cast<event::KeyboardReleasedEvent*>(e.get());
-			Logger::instance().log(*p);
-		}
+		InputManager::instance().catch_keyboardEvent(std::move(e));
 	}
 
 	void Window_API::mouse_callback_(std::unique_ptr<event::MouseEvent>&& e) const noexcept
 	{
-		if (e->state() == event::MouseEvent::State::MOVED)
-		{
-			auto p = static_cast<event::MouseMovedEvent*>(e.get());
-			//Logger::instance().log(*p);
-		}
-		else if (e->state() == event::MouseEvent::State::PRESSED)
-		{
-			auto p = static_cast<event::MousePressedEvent*>(e.get());
-			Logger::instance().log(*p);
-		}
-		else if (e->state() == event::MouseEvent::State::RELEASED)
-		{
-			auto p = static_cast<event::MouseReleasedEvent*>(e.get());
-			Logger::instance().log(*p);
-		}
-		else if (e->state() == event::MouseEvent::State::WHEEL)
-		{
-			auto p = static_cast<event::MouseWheelEvent*>(e.get());
-			Logger::instance().log(*p);
-		}
+		InputManager::instance().catch_mouseEvent(std::move(e));
 	}
 }

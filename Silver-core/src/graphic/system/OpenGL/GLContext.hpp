@@ -1,14 +1,16 @@
 #pragma once
 
+#include "graphic\context\Context.hpp"
+
 namespace silver::core::graphic
 {
-	class GLContext
+	class GLContext : public Context
 	{
 	public:
-		static void create(void* deviceContext);
-		static void release();
+		void create(void* deviceContext) override;
+		void release() override;
 
-		static void* renderingContext() { return renderingContext_; }
+		void* renderingContext() override { return renderingContext_; }
 
 	private:
 		static void* deviceContext_;

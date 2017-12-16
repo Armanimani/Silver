@@ -12,9 +12,9 @@ namespace silver::core::impl
 	class Logger_win32
 	{
 	public:
-		Logger_win32();
-
 		static const Logger_win32& instance();
+		
+		Logger_win32();
 
 		template <typename T>
 		void log(T&& object) const noexcept;

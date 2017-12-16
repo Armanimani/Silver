@@ -19,6 +19,13 @@ namespace silver::core
 		void focus(const bool state = true) noexcept override;
 		
 		vec2ui mouse_position() const noexcept override;
+		void set_mouse_position(const vec2ui& pos) const noexcept override;
+		void lock_mouse(const bool state = true) noexcept override;
+		void show_mouse(const bool state = true) noexcept override;
+
+		vec2ui screen_resolution() const noexcept override;
+		unsigned int screen_resolutionX() const noexcept override;
+		unsigned int screen_resolutionY() const noexcept override;
 
 		void set_width(const unsigned int width) noexcept override;
 		void set_height(const unsigned int height) noexcept override;
@@ -26,33 +33,28 @@ namespace silver::core
 		void set_title(const std::string& title) noexcept override;
 
 	private:
+		static std::string s_windowClassName;
 		static HINSTANCE s_hInstance_;
 		static std::map<HWND, Window_win32*> s_handles_;
 		static bool s_windowRegistered;
 
-		static LRESULT CALLBACK windowProc_callback(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-
+		std::unique_ptr<HANDLE> icon_;
 		HWND hWnd_ {};
 		HDC hDC_ {};
 		HGLRC hRC_ {};
 		unsigned int pixelFormat_ {};
 
-		static Window_win32* get_window(const HWND& hwnd);
+		static Window_win32* get_window_(const HWND& hwnd);
 		static void get_applicationHandle_();
 		static void register_windowClass_();
+		static LRESULT CALLBACK windowProc_callback(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 		void create_window_();
 		void get_deviceContext_();
 		void set_pixelFormatDescriptor_();
 		void create_renderingContext_();
 
-		void resizeEvent_handler_(const unsigned int width, const unsigned int height) noexcept;
-		void focus_handler_(const bool state) noexcept;
-		void close_handler_() const noexcept;
-		void create_handler_() const noexcept;
-		void destroy_handler_() const noexcept;
-		void show_handler_(const bool state) noexcept;
-
+		void windowEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) noexcept;
 		void keyboardEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept;
 		void mouseEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept;
 	};

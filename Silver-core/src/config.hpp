@@ -8,4 +8,3 @@
 	#define SILVER_LOGGER_MESSAGE
 	#define SILVER_LOGGER_LOG_TO_FILE 
 #endif
-

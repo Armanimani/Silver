@@ -1,7 +1,5 @@
 #include "graphic\system\OpenGL\GLContext.hpp"
 
-#include <GL\glew.h>
-
 #include "common.hpp"
 
 #ifdef _WIN32
@@ -15,7 +13,6 @@ namespace silver::core::graphic
 
 	void GLContext::create(void* deviceContext)
 	{
-		//glewInit();
 		deviceContext_ = deviceContext;
 
 		#ifdef _WIN32
