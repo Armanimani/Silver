@@ -18,24 +18,27 @@ namespace silver::core
 	
 	Window_win32::~Window_win32()
 	{
-		if (hRC_)
+		if (is_shown())
 		{
-			graphic::Context::instance();
-		}
+			if (hRC_)
+			{
+				graphic::Context::instance();
+			}
 
-		if (hDC_ && !ReleaseDC(hWnd_, hDC_))
-		{
-			Logger::instance().log_error("Unable to release the device context.");
-		}
+			if (hDC_ && !ReleaseDC(hWnd_, hDC_))
+			{
+				Logger::instance().log_error("Unable to release the device context.");
+			}
 
-		if (hWnd_ && !DestroyWindow(hWnd_))
-		{
-			Logger::instance().log_error("Unable to destory the window.");
-		}
+			if (hWnd_ && !DestroyWindow(hWnd_))
+			{
+				Logger::instance().log_error("Unable to destory the window.");
+			}
 
-		if (s_windowRegistered && !UnregisterClass(s_windowClassName.c_str(), s_hInstance_))
-		{
-			Logger::instance().log_error("Unable to unrigister the window class.");
+			if (s_windowRegistered && !UnregisterClass(s_windowClassName.c_str(), s_hInstance_))
+			{
+				Logger::instance().log_error("Unable to unrigister the window class.");
+			}
 		}
 	}
 
@@ -66,7 +69,7 @@ namespace silver::core
 		}
 	}
 
-	void Window_win32::update()
+	void Window_win32::update() const noexcept
 	{
 		MSG msg;
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
@@ -74,6 +77,11 @@ namespace silver::core
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+	}
+	
+	void Window_win32::clear() const noexcept
+	{
+		graphic::Context::instance()->clear();
 	}
 
 	void Window_win32::focus(const bool state) noexcept
@@ -88,7 +96,7 @@ namespace silver::core
 		POINT pos;
 		GetCursorPos(&pos);
 		ScreenToClient(hWnd_, &pos);
-		return { static_cast<unsigned int>(pos.x), static_cast<unsigned int>(pos.y) };
+		return { static_cast<uint>(pos.x), static_cast<uint>(pos.y) };
 	}
 
 	void Window_win32::set_mouse_position(const vec2ui& pos) const noexcept
@@ -126,26 +134,26 @@ namespace silver::core
 
 	vec2ui Window_win32::screen_resolution() const noexcept
 	{
-		return { static_cast<unsigned int>(GetSystemMetrics(SM_CXSCREEN)), static_cast<unsigned int>(GetSystemMetrics(SM_CYSCREEN)) };
+		return { static_cast<uint>(GetSystemMetrics(SM_CXSCREEN)), static_cast<uint>(GetSystemMetrics(SM_CYSCREEN)) };
 	}
 
-	unsigned int Window_win32::screen_resolutionX() const noexcept
+	uint Window_win32::screen_resolutionX() const noexcept
 	{
-		return static_cast<unsigned int>(GetSystemMetrics(SM_CXSCREEN));
+		return static_cast<uint>(GetSystemMetrics(SM_CXSCREEN));
 	}
 
-	unsigned int Window_win32::screen_resolutionY() const noexcept
+	uint Window_win32::screen_resolutionY() const noexcept
 	{
-		return static_cast<unsigned int>(GetSystemMetrics(SM_CYSCREEN));
+		return static_cast<uint>(GetSystemMetrics(SM_CYSCREEN));
 	}
 
-	void Window_win32::set_width(const unsigned int value) noexcept
+	void Window_win32::set_width(const uint value) noexcept
 	{
 		settings_.size.x = value;
 		SetWindowPos(hWnd_, nullptr, 0, 0, value, height(), SWP_NOMOVE);
 	}
 
-	void Window_win32::set_height(const unsigned int value) noexcept
+	void Window_win32::set_height(const uint value) noexcept
 	{
 		settings_.size.y = value;
 		SetWindowPos(hWnd_, nullptr, 0, 0, width(), value, SWP_NOMOVE);
@@ -206,9 +214,9 @@ namespace silver::core
 		DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 		AdjustWindowRectEx(&rect, dwStyle, false, dwExStyle);
 
-		int windowX = (GetSystemMetrics(SM_CXSCREEN) - settings_.size.x) / 2;
-		int windowY = (GetSystemMetrics(SM_CYSCREEN) - settings_.size.y) / 2;
-		hWnd_ = CreateWindowExA(dwExStyle, s_windowClassName.c_str(), settings_.title.c_str(), dwStyle, windowX, windowY, settings_.size.x, settings_.size.y, nullptr, nullptr, s_hInstance_, nullptr);
+		int32 windowX = (GetSystemMetrics(SM_CXSCREEN) - settings_.size.x) / 2;
+		int32 windowY = (GetSystemMetrics(SM_CYSCREEN) - settings_.size.y) / 2;
+		hWnd_ = CreateWindowExA(dwExStyle, s_windowClassName.c_str(), settings_.title.c_str(), dwStyle, windowX, windowY, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, s_hInstance_, nullptr);
 		
 		if (!hWnd_)
 		{
@@ -266,8 +274,8 @@ namespace silver::core
 		{
 			case WM_SIZE:
 			{
-				auto width = static_cast<unsigned int>(LOWORD(lparam));
-				auto height = static_cast<unsigned int>(HIWORD(lparam));
+				auto width = static_cast<uint>(LOWORD(lparam));
+				auto height = static_cast<uint>(HIWORD(lparam));
 				settings_.size = { width, height };
 
 				auto e = std::make_unique<event::WindowResizeEvent>(settings_.size);
@@ -290,12 +298,14 @@ namespace silver::core
 			}
 			case WM_CLOSE:
 			{
+				show(false);
 				auto e = std::make_unique<event::WindowCloseEvent>();
 				window_callback_(std::move(e));
 				break;
 			}
 			case WM_DESTROY:
 			{
+				show(false);
 				auto e = std::make_unique<event::WindowDestroyEvent>();
 				window_callback_(std::move(e));
 				break;
@@ -313,7 +323,7 @@ namespace silver::core
 	void Window_win32::keyboardEvent_handler_(UINT msg, WPARAM wparam, LPARAM lparam) const noexcept
 	{
 		auto position = mouse_position();
-		auto code = KeyCodeTranslator_win32::translate(static_cast<unsigned int>(wparam));
+		auto code = KeyCodeTranslator_win32::translate(static_cast<uint>(wparam));
 
 		if (GetKeyState(VK_MENU) & 0x8000)
 		{
@@ -386,7 +396,7 @@ namespace silver::core
 		else if (msg == WM_MOUSEWHEEL)
 		{
 			auto value = GET_WHEEL_DELTA_WPARAM(wparam) / 120;
-			auto e = std::make_unique<event::MouseWheelEvent>(code, position, static_cast<int>(value));
+			auto e = std::make_unique<event::MouseWheelEvent>(code, position, static_cast<int32>(value));
 			mouse_callback_(std::move(e));
 		}
 		else if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)

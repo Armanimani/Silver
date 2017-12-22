@@ -1,12 +1,12 @@
 #pragma once
 
-#include "graphic\context\RenderingContext.hpp"
+#include "graphic\context\Context.hpp"
 
 namespace silver::core
 {
 	struct ApplicationSettings
 	{
 		float updateFrequency = 0.0f;
-		graphic::RenderingContext renderingContext = graphic::RenderingContext::OpenGL;
+		graphic::RenderingContext_API renderingContext = graphic::RenderingContext_API::OpenGL;
 	};
 }

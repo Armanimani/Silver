@@ -2,7 +2,7 @@
 
 #include "graphic\context\Context.hpp"
 
-namespace silver::core::graphic
+namespace silver::graphic
 {
 	class GLContext : public Context
 	{
@@ -10,10 +10,12 @@ namespace silver::core::graphic
 		void create(void* deviceContext) override;
 		void release() override;
 
-		void* renderingContext() override { return renderingContext_; }
+		void* renderingContext() override { return s_renderingContext_; }
+
+		void swap_buffer() const noexcept override;
+		void clear() const noexcept override;
 
 	private:
-		static void* deviceContext_;
-		static void* renderingContext_;
+		static void* s_renderingContext_;
 	};
 }

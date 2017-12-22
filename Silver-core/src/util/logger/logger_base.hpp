@@ -3,7 +3,7 @@
 #include <string>
 #include <optional>
 
-#include "math\math.hpp"
+#include "common.hpp"
 #include "event\events.hpp"
 #include "util\translator\Translator.hpp"
 
@@ -27,12 +27,12 @@ namespace silver::core::impl
 		return { object };
 	}
 
-	static std::string toString(const int object)
+	static std::string toString(const int32 object)
 	{
 		return std::to_string(object);
 	}
 
-	static std::string toString(const unsigned int object)
+	static std::string toString(const uint object)
 	{
 		return std::to_string(object);
 	}

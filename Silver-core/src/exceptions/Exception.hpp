@@ -8,14 +8,14 @@ namespace silver::core
 	class Exception
 	{
 	public:
-		Exception(const std::string file, const int line, const T object) : file_(std::move(file)), line_(std::move(line)), object_(std::move(object)) {}
+		Exception(const std::string file, const int32 line, const T object) : file_(std::move(file)), line_(std::move(line)), object_(std::move(object)) {}
 
 		T get() const;
 		std::string get_info() const;
 
 	private:
 		const std::string file_;
-		const int line_;
+		const int32 line_;
 		const T object_;
 	};
 

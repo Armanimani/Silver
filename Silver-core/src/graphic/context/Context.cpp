@@ -3,9 +3,10 @@
 #include "graphic\system\OpenGL\GLContext.hpp"
 #include "common.hpp"
 
-namespace silver::core::graphic
+namespace silver::graphic
 {
 	std::unique_ptr<Context> Context::s_instance_;
+	RenderingContext_API Context::s_renderingAPI_;
 	Context* Context::instance()
 	{
 		if (!s_instance_)
@@ -15,15 +16,21 @@ namespace silver::core::graphic
 		return s_instance_.get();
 	}
 
-	void Context::init(const RenderingContext& renderingContext)
+	RenderingContext_API Context::API() noexcept
 	{
-		if (renderingContext == RenderingContext::OpenGL)
+		return s_renderingAPI_;
+	}
+
+	void Context::init(const RenderingContext_API& renderingContext_API)
+	{
+		s_renderingAPI_ = renderingContext_API;
+		if (renderingContext_API == RenderingContext_API::OpenGL)
 		{
 			s_instance_ = std::make_unique<GLContext>();
 		}
 		else
 		{
-			throw SILVER_EXCEPTION_CRITICAL("Unsupported rendering context!");
+			throw SILVER_EXCEPTION_CRITICAL("Unsupported rendering context API!");
 		}
 	}
 }

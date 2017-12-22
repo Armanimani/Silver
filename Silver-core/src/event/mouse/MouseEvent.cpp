@@ -26,12 +26,12 @@ namespace silver::core::event
 		return (state_ == State::RELEASED);
 	}
 
-	unsigned int MouseEvent::x() const noexcept
+	uint MouseEvent::x() const noexcept
 	{
 		return pos_.y;
 	}
 
-	unsigned int MouseEvent::y() const noexcept
+	uint MouseEvent::y() const noexcept
 	{
 		return pos_.x;
 	}

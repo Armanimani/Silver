@@ -37,10 +37,10 @@ namespace silver::core
 		s_instance_->mousePosition_ = e->position();
 		if (e->state() != event::MouseEvent::State::MOVED)
 		{
-			s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_ALT)] = e->alt();
-			s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_CTRL)] = e->ctrl();
-			s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_SHIFT)] = e->shift();
-			s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_WIN)] = e->win();
+			s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_ALT)] = e->alt();
+			s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_CTRL)] = e->ctrl();
+			s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_SHIFT)] = e->shift();
+			s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_WIN)] = e->win();
 			if (e->state() == event::MouseEvent::State::WHEEL)
 			{
 				auto p = static_cast<event::MouseWheelEvent*>(e.get());
@@ -48,11 +48,11 @@ namespace silver::core
 			} 
 			else if (e->state() == event::MouseEvent::State::PRESSED)
 			{
-				s_instance_->keyState_[static_cast<unsigned int>(e->key())] = true;
+				s_instance_->keyState_[static_cast<uint>(e->key())] = true;
 			}
 			else if (e->state() == event::MouseEvent::State::RELEASED)
 			{
-				s_instance_->keyState_[static_cast<unsigned int>(e->key())] = false;
+				s_instance_->keyState_[static_cast<uint>(e->key())] = false;
 			}
 		}
 		s_instance_->eventCallback_(std::move(e));
@@ -62,18 +62,18 @@ namespace silver::core
 	{
 		s_instance_->mousePosition_ = e->position();
 
-		s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_ALT)] = e->alt();
-		s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_CTRL)] = e->ctrl();
-		s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_SHIFT)] = e->shift();
-		s_instance_->keyState_[static_cast<unsigned int>(KeyCode::KEY_WIN)] = e->win();
+		s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_ALT)] = e->alt();
+		s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_CTRL)] = e->ctrl();
+		s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_SHIFT)] = e->shift();
+		s_instance_->keyState_[static_cast<uint>(KeyCode::KEY_WIN)] = e->win();
 
 		if (e->state() == event::KeyboardEvent::State::PRESSED)
 		{
-			s_instance_->keyState_[static_cast<unsigned int>(e->key())] = true;
+			s_instance_->keyState_[static_cast<uint>(e->key())] = true;
 		}
 		else if (e->state() == event::KeyboardEvent::State::RELEASED)
 		{
-			s_instance_->keyState_[static_cast<unsigned int>(e->key())] = false;
+			s_instance_->keyState_[static_cast<uint>(e->key())] = false;
 		}
 		s_instance_->eventCallback_(std::move(e));
 	}
@@ -90,42 +90,42 @@ namespace silver::core
 
 	bool InputManager::is_key_pressed(const KeyCode code) const noexcept
 	{
-		return keyState_[static_cast<unsigned int>(code)];
+		return keyState_[static_cast<uint>(code)];
 	}
 
 	bool InputManager::is_key_released(const KeyCode code) const noexcept
 	{
-		return (lastKeyState_[static_cast<unsigned int>(code)] && !keyState_[static_cast<unsigned int>(code)]);
+		return (lastKeyState_[static_cast<uint>(code)] && !keyState_[static_cast<uint>(code)]);
 	}
 
 	bool InputManager::is_key_held(const KeyCode code) const noexcept
 	{
-		return (lastKeyState_[static_cast<unsigned int>(code)] && keyState_[static_cast<unsigned int>(code)]);
+		return (lastKeyState_[static_cast<uint>(code)] && keyState_[static_cast<uint>(code)]);
 	}
 
 	bool InputManager::was_key_pressed(const KeyCode code) const noexcept
 	{
-		return lastKeyState_[static_cast<unsigned int>(code)];
+		return lastKeyState_[static_cast<uint>(code)];
 	}
 
 	bool InputManager::is_mouse_pressed(const MouseCode code) const noexcept
 	{
-		return mouseState_[static_cast<unsigned int>(code)];
+		return mouseState_[static_cast<uint>(code)];
 	}
 
 	bool InputManager::is_mouse_released(const MouseCode code) const noexcept
 	{
-		return (lastMouseState_[static_cast<unsigned int>(code)] && !mouseState_[static_cast<unsigned int>(code)]);
+		return (lastMouseState_[static_cast<uint>(code)] && !mouseState_[static_cast<uint>(code)]);
 	}
 
 	bool InputManager::is_mouse_held(const MouseCode code) const noexcept
 	{
-		return (lastMouseState_[static_cast<unsigned int>(code)] && mouseState_[static_cast<unsigned int>(code)]);
+		return (lastMouseState_[static_cast<uint>(code)] && mouseState_[static_cast<uint>(code)]);
 	}
 
 	bool InputManager::was_mouse_pressed(const MouseCode code) const noexcept
 	{
-		return lastMouseState_[static_cast<unsigned int>(code)];
+		return lastMouseState_[static_cast<uint>(code)];
 	}
 
 	vec2ui InputManager::mouse_position() const noexcept
@@ -133,7 +133,7 @@ namespace silver::core
 		return mousePosition_;
 	}
 
-	unsigned int InputManager::mouse_wheel() const noexcept
+	uint InputManager::mouse_wheel() const noexcept
 	{
 		return mouseWheelValue_;
 	}

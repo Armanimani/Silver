@@ -10,7 +10,7 @@ namespace silver::core::event
 			KEYBOARD,
 			MOUSE,
 			WINDOW,
-			APPLICATION
+			ENGINE
 		};
 
 		Type type() const noexcept;

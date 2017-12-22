@@ -2,7 +2,7 @@
 
 #include "event\Event_base.hpp"
 #include "input\KeyCode.hpp"
-#include "math\math.hpp"
+#include "common.hpp"
 
 namespace silver::core::event
 {
@@ -23,8 +23,8 @@ namespace silver::core::event
 		bool pressed() const noexcept;
 		bool released() const noexcept;
 
-		unsigned int x() const noexcept;
-		unsigned int y() const noexcept;
+		uint x() const noexcept;
+		uint y() const noexcept;
 		vec2ui position() const noexcept;
 
 		bool was_down() const noexcept;

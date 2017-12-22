@@ -5,13 +5,13 @@
 
 #include "input\KeyCode.hpp"
 #include "input\MouseCode.hpp"
-#include "math\math.hpp"
+#include "common.hpp"
 #include "event\events.hpp"
 
 namespace silver::core
 {
-	constexpr int MAX_KEYS = 512;
-	constexpr int MAX_MOUSE_KEYS = 10;
+	constexpr int32 MAX_KEYS = 512;
+	constexpr int32 MAX_MOUSE_KEYS = 10;
 
 	class InputManager
 	{
@@ -42,7 +42,7 @@ namespace silver::core
 		bool was_mouse_pressed(const MouseCode code) const noexcept;
 
 		vec2ui mouse_position() const noexcept;
-		unsigned int mouse_wheel() const noexcept;
+		uint mouse_wheel() const noexcept;
 
 	private:
 		static std::unique_ptr<InputManager> s_instance_;
@@ -55,6 +55,6 @@ namespace silver::core
 		std::array<bool, MAX_MOUSE_KEYS> lastMouseState_ {};
 
 		vec2ui mousePosition_ {};
-		unsigned int mouseWheelValue_ {};
+		uint mouseWheelValue_ {};
 	};
 }

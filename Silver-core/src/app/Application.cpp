@@ -10,6 +10,7 @@
 #include "input\InputManager.hpp"
 #include "window\Window.hpp"
 #include "clock\Clock.hpp"
+#include "graphic\renderer\Renderer.hpp"
 
 namespace silver::core
 {
@@ -28,18 +29,31 @@ namespace silver::core
 		}
 		catch (...)
 		{
-			Logger::instance().log_error("Uknown Fatal Error");
+			Logger::instance().log_error("Unknown Fatal Error");
 			throw;
 		}
+	}
+
+
+	void Application::load_scene_(graphic::Scene* scene) noexcept
+	{
+		scene_ = scene;
 	}
 
 	Application::~Application() {}
 
 	void Application::start()
 	{
+		running_ = true;
+		paused_ = false;
 		try
 		{
+			if (!initialized_)
+			{
+				system_init_();
+			}
 			init_();
+			window_->show();
 			run_();
 		}
 		catch (const Exception<std::string>& e)
@@ -52,63 +66,47 @@ namespace silver::core
 		}
 		catch (...)
 		{
-			Logger::instance().log_error("Uknown Fatal Error");
+			Logger::instance().log_error("Unknown Fatal Error");
 		}
 	}
 
-	unsigned int Application::push_layer_(graphic::Layer* layer) noexcept
+	void Application::pause() noexcept
 	{
-		layer->set_handle(layer_handle_);
-		layers_.push_back(layer);
-		layer_handle_++;
-		return layer_handle_ - 1;
+		paused_ = true;
 	}
 
-	unsigned int Application::push_overlay_(graphic::Layer* layer) noexcept
+	void Application::resume() noexcept
 	{
-		layer->set_handle(overlay_handle_);
-		overlays_.push_back(layer);
-		overlay_handle_++;
-		return overlay_handle_ - 1;
+		paused_ = false;
 	}
 
-	void Application::pop_layer_(unsigned int handle) noexcept
+	void Application::stop() noexcept
 	{
-		auto pos = std::find_if(layers_.begin(), layers_.end(), [handle] (const graphic::Layer* layer) { return layer->handle() == handle; });
-		layers_.erase(pos);
+		running_ = false;
 	}
 
-	void Application::pop_overlay_(unsigned int handle) noexcept
+	void Application::system_init_()
 	{
-		auto pos = std::find_if(overlays_.begin(), overlays_.end(), [handle] (const graphic::Layer* layer) { return layer->handle() == handle; });
-		overlays_.erase(pos);
+		Logger::instance().log_engine("initializing...");
+
+		window_->create();
+		graphic::Renderer::init();
+		initialized_ = true;
 	}
 
 	void Application::init_()
 	{
-		window_->create();
-
 		on_init_();
-		for (auto i = layers_.begin(); i != layers_.end(); ++i)
-		{
-			(*i)->on_init();
-		}
-
-		for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-		{
-			(*i)->on_init();
-		}
+		scene_->on_init();
 	}
 
 	void Application::run_()
 	{
-		Logger::instance().log_information("Engine started...");
-
-		window_->show();
+		Logger::instance().log_engine("started...");
 
 		float elapsedTime { 0.0f };
-		unsigned int updateCounter {};
-		unsigned int frameCounter {};
+		uint updateCounter {};
+		uint frameCounter {};
 
 		clock_->reset();
 		auto now = clock_->time();
@@ -117,8 +115,10 @@ namespace silver::core
 
 		while (running_)
 		{
+			window_->clear();
+
 			auto now = clock_->time();
-			if (updateTimeStep.deltaTime_s(now) >= settings_.updateFrequency)
+			if (updateTimeStep.deltaTime_s(now) >= settings_.updateFrequency && !paused_)
 			{
 				update_(updateTimeStep.deltaTime_s(now));
 				updateTimeStep.update(now);
@@ -149,53 +149,31 @@ namespace silver::core
 		InputManager::instance().update();
 		
 		on_update_();
-		for (auto i = layers_.begin(); i != layers_.end(); ++i)
+		if (!paused_)
 		{
-			(*i)->on_update(dt_s);
-		}
-
-		for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-		{
-			(*i)->on_update(dt_s);
+			scene_->on_update(dt_s);
 		}
 	}
 
 	void Application::second_update_()
 	{
 		on_second_update_();
-		for (auto i = layers_.begin(); i != layers_.end(); ++i)
-		{
-			(*i)->on_second_update();
-		}
-
-		for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-		{
-			(*i)->on_second_update();
-		}
+		scene_->on_second_update();
 	}
 
 	void Application::render_()
 	{
 		on_render_();
-		for (auto i = layers_.begin(); i != layers_.end(); ++i)
-		{
-			if ((*i)->renderable())
-				(*i)->on_render();
-		}
-
-		for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-		{
-			if ((*i)->renderable())
-				(*i)->on_render();
-		}
+		scene_->on_render();
+		graphic::Renderer::instance()->present();
 	}
 
-	unsigned int Application::get_FPS_() const noexcept
+	uint Application::get_FPS_() const noexcept
 	{
 		return FPS_;
 	}
 
-	unsigned int Application::get_UPS_() const noexcept
+	uint Application::get_UPS_() const noexcept
 	{
 		return UPS_;
 	}
@@ -210,28 +188,12 @@ namespace silver::core
 		else if (e->type() == event::Event_base::Type::KEYBOARD)
 		{
 			auto p = std::unique_ptr<event::KeyboardEvent>(static_cast<event::KeyboardEvent*>(e.release()));
-			for (auto i = layers_.begin(); i != layers_.end(); ++i)
-			{
-				(*i)->on_keyboard_event(std::move(p));
-			}
-
-			for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-			{
-				(*i)->on_keyboard_event(std::move(p));
-			}
+			scene_->on_keyboard_event(p.get());
 		}
 		else if (e->type() == event::Event_base::Type::MOUSE)
 		{
 			auto p = std::unique_ptr<event::MouseEvent>(static_cast<event::MouseEvent*>(e.release()));
-			for (auto i = layers_.begin(); i != layers_.end(); ++i)
-			{
-				(*i)->on_mouse_event(std::move(p));
-			}
-
-			for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-			{
-				(*i)->on_mouse_event(std::move(p));
-			}
+			scene_->on_mouse_event(p.get());
 		}
 	}
 
@@ -241,83 +203,41 @@ namespace silver::core
 		{
 			case (event::WindowEvent::State::CREATE):
 			{
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_create();
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_create();
-				}
+				on_window_create_();
+				scene_->on_window_create();
 				break;
 			}
 			case (event::WindowEvent::State::CLOSE):
 			{
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_close();
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_close();
-				}
+				on_window_close_();
+				scene_->on_window_close();
 				break;
 			}
 			case (event::WindowEvent::State::DESTROY):
 			{
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_destroy();
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_destroy();
-				}
+				on_window_destroy_();
+				scene_->on_window_destroy();
 				break;
 			}
 			case (event::WindowEvent::State::FOCUS):
 			{
 				auto p = static_cast<event::WindowFocusEvent*>(e.release());
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_focus(p->state());
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_focus(p->state());
-				}
+				on_window_focus_(p->state());
+				scene_->on_window_focus(p->state());
 				break;
 			}
 			case(event::WindowEvent::State::SHOW):
 			{
 				auto p = static_cast<event::WindowShowEvent*>(e.release());
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_show(p->state());
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_show(p->state());
-				}
+				on_window_show_(p->state());
+				scene_->on_window_show(p->state());
 				break;
 			}
 			case(event::WindowEvent::State::RESIZE):
 			{
 				auto p = static_cast<event::WindowResizeEvent*>(e.release());
-				for (auto i = layers_.begin(); i != layers_.end(); ++i)
-				{
-					(*i)->on_window_resize(p->size());
-				}
-
-				for (auto i = overlays_.begin(); i != overlays_.end(); ++i)
-				{
-					(*i)->on_window_resize(p->size());
-				}
+				on_window_resize_(p->size());
+				scene_->on_window_resize(p->size());
 				break;
 			}
 		}

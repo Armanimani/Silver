@@ -4,7 +4,7 @@
 
 namespace silver::core
 {
-	std::map<const unsigned int, KeyCode> KeyCodeTranslator_win32::database_
+	std::map<const uint, KeyCode> KeyCodeTranslator_win32::database_
 	{
 		{ VK_NONAME, KeyCode::KEY_NO_CODE },
 
@@ -181,7 +181,7 @@ namespace silver::core
 		{ VK_CONTROL, KeyCode::KEY_CTRL },
 	};
 
-	KeyCode KeyCodeTranslator_win32::translate(const unsigned int key) noexcept
+	KeyCode KeyCodeTranslator_win32::translate(const uint key) noexcept
 	{
 		return database_[key];
 	}

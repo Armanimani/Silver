@@ -17,12 +17,12 @@ namespace silver::core
 		return settings_.mouseShow;
 	}
 
-	unsigned int Window_API::width() const noexcept
+	uint Window_API::width() const noexcept
 	{
 		return settings_.size.x;
 	}
 
-	unsigned int Window_API::height() const noexcept
+	uint Window_API::height() const noexcept
 	{
 		return settings_.size.y;
 	}

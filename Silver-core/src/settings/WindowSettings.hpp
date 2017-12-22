@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "math\math.hpp"
+#include "common.hpp"
 
 namespace silver::core
 {
@@ -18,9 +18,9 @@ namespace silver::core
 		bool mouseShow { true };
 		bool mouseLock { false };
 
-		unsigned int colorBit { 32 };
-		unsigned int depthBit { 24 };
-		unsigned int stencilBits { 8 };
-		unsigned int auxBuffers { 0 };
+		uint colorBit { 32 };
+		uint depthBit { 24 };
+		uint stencilBits { 8 };
+		uint auxBuffers { 0 };
 	};
 }

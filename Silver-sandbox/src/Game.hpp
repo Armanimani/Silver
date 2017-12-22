@@ -4,7 +4,9 @@
 
 #include "app\Application.hpp"
 #include "event\events.hpp"
-#include "layers\FPSLoggerLayer.hpp"
+#include "start\SceneStart.hpp"
+
+
 
 class Game : public silver::core::Application
 {
@@ -12,8 +14,10 @@ public:
 	Game(const silver::core::Settings settings) : Application(settings) {}
 
 private:
-	std::unique_ptr<FPSLoggerLayer> fpsLayer_;
+	std::unique_ptr<SceneStart> startScene_;
 
 	void on_init_() noexcept override;
 	void on_second_update_() noexcept override;
+
+	void on_window_close_() noexcept override;
 };

@@ -4,7 +4,7 @@
 
 namespace silver::core
 {
-	enum class KeyCode : int
+	enum class KeyCode : int32
 	{
 		KEY_NO_CODE = 0x00,
 

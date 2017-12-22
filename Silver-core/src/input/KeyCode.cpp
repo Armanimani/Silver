@@ -4,45 +4,45 @@ namespace silver::core
 {
 	KeyCode operator|(KeyCode lhs, KeyCode rhs)
 	{
-		return static_cast<KeyCode>(static_cast<unsigned int>(lhs) | static_cast<unsigned int>(rhs));
+		return static_cast<KeyCode>(static_cast<uint>(lhs) | static_cast<uint>(rhs));
 	}
 
 	KeyCode operator&(KeyCode lhs, KeyCode rhs)
 	{
-		return static_cast<KeyCode>(static_cast<unsigned int>(lhs) & static_cast<unsigned int>(rhs));
+		return static_cast<KeyCode>(static_cast<uint>(lhs) & static_cast<uint>(rhs));
 	}
 
 	KeyCode& operator|=(KeyCode& lhs, KeyCode rhs)
 	{
-		lhs = static_cast<KeyCode>(static_cast<unsigned int>(lhs) | static_cast<unsigned int>(rhs));
+		lhs = static_cast<KeyCode>(static_cast<uint>(lhs) | static_cast<uint>(rhs));
 		return lhs;
 	}
 
 	KeyCode& operator&=(KeyCode& lhs, KeyCode rhs)
 	{
-		lhs = static_cast<KeyCode>(static_cast<unsigned int>(lhs) & static_cast<unsigned int>(rhs));
+		lhs = static_cast<KeyCode>(static_cast<uint>(lhs) & static_cast<uint>(rhs));
 		return lhs;
 	}
 
 	KeyCode operator|(KeyCode lhs, KeyModifier rhs)
 	{
-		return static_cast<KeyCode>(static_cast<unsigned int>(lhs) | static_cast<unsigned int>(rhs));
+		return static_cast<KeyCode>(static_cast<uint>(lhs) | static_cast<uint>(rhs));
 	}
 
 	KeyCode operator&(KeyCode lhs, KeyModifier rhs)
 	{
-		return static_cast<KeyCode>(static_cast<unsigned int>(lhs) & static_cast<unsigned int>(rhs));
+		return static_cast<KeyCode>(static_cast<uint>(lhs) & static_cast<uint>(rhs));
 	}
 
 	KeyCode& operator|=(KeyCode& lhs, KeyModifier rhs)
 	{
-		lhs = static_cast<KeyCode>(static_cast<unsigned int>(lhs) | static_cast<unsigned int>(rhs));
+		lhs = static_cast<KeyCode>(static_cast<uint>(lhs) | static_cast<uint>(rhs));
 		return lhs;
 	}
 
 	KeyCode& operator&=(KeyCode& lhs, KeyModifier rhs)
 	{
-		lhs = static_cast<KeyCode>(static_cast<unsigned int>(lhs) & static_cast<unsigned int>(rhs));
+		lhs = static_cast<KeyCode>(static_cast<uint>(lhs) & static_cast<uint>(rhs));
 		return lhs;
 	}
 

@@ -7,11 +7,11 @@ namespace silver::core::event
 	class MouseWheelEvent : public MouseEvent
 	{
 	public:
-		MouseWheelEvent(const MouseCode key, const vec2ui pos, const int value);
+		MouseWheelEvent(const MouseCode key, const vec2ui pos, const int32 value);
 
-		int value() const noexcept;
+		int32 value() const noexcept;
 
 	protected:
-		const int value_;
+		const int32 value_;
 	};
 }

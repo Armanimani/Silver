@@ -1,8 +1,10 @@
 #pragma once
 
+#include "common.hpp"
+
 namespace silver::core
 {
-	enum class KeyModifier : int
+	enum class KeyModifier : int32
 	{
 		KEY_MASK = 0xFF << 24,
 		KEY_REMOVE_MASK = 0xFF,

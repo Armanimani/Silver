@@ -95,7 +95,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src;$(SolutionDir)Dependencies\FreeImage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src</AdditionalIncludeDirectories>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -103,9 +108,14 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/Win32;$(SolutionDir)Dependencies/FreeImage/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -113,8 +123,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src;$(SolutionDir)Dependencies\FreeImage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64</AdditionalLibraryDirectories>
@@ -122,9 +136,14 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/x64;$(SolutionDir)Dependencies/FreeImage/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
+    <ProjectReference />
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -134,7 +153,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src;$(SolutionDir)Dependencies\FreeImage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src</AdditionalIncludeDirectories>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -144,9 +168,14 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/Win32;$(SolutionDir)Dependencies/FreeImage/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,7 +185,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src;$(SolutionDir)Dependencies\FreeImage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Silver-core\src</AdditionalIncludeDirectories>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -166,9 +200,14 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Glew/lib/Release/x64;$(SolutionDir)Dependencies/FreeImage/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
+    <ProjectReference />
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\app\Application.hpp" />
@@ -177,6 +216,12 @@
     <ClInclude Include="src\clock\TimeStep.hpp" />
     <ClInclude Include="src\common.hpp" />
     <ClInclude Include="src\config.hpp" />
+    <ClInclude Include="src\event\engine\EngineEvent.hpp" />
+    <ClInclude Include="src\event\engine\EngineExitEvent.hpp" />
+    <ClInclude Include="src\event\engine\EnginePauseEvent.hpp" />
+    <ClInclude Include="src\event\engine\EngineResumeEvent.hpp" />
+    <ClInclude Include="src\event\engine\EngineStartEvent.hpp" />
+    <ClInclude Include="src\event\engine\EngineStopEvent.hpp" />
     <ClInclude Include="src\event\events.hpp" />
     <ClInclude Include="src\event\Event_base.hpp" />
     <ClInclude Include="src\event\keyboard\KeyboardEvent.hpp" />
@@ -196,23 +241,52 @@
     <ClInclude Include="src\event\window\WindowShowEvent.hpp" />
     <ClInclude Include="src\exceptions\CriticalException.hpp" />
     <ClInclude Include="src\exceptions\Exception.hpp" />
+    <ClInclude Include="src\graphic\buffer\Buffer.hpp" />
+    <ClInclude Include="src\graphic\buffer\BufferLayout.hpp" />
+    <ClInclude Include="src\graphic\buffer\BufferStructure.hpp" />
+    <ClInclude Include="src\graphic\buffer\IndexBuffer.hpp" />
+    <ClInclude Include="src\graphic\buffer\VertexArray.hpp" />
+    <ClInclude Include="src\graphic\buffer\VertexBuffer.hpp" />
     <ClInclude Include="src\graphic\context\Context.hpp" />
-    <ClInclude Include="src\graphic\layer\Layer.hpp" />
-    <ClInclude Include="src\graphic\layer\layers.hpp" />
-    <ClInclude Include="src\graphic\layer\console\LoggerLayer.hpp" />
+    <ClInclude Include="src\graphic\entity\Shape2D.hpp" />
+    <ClInclude Include="src\graphic\mesh\Mesh.hpp" />
+    <ClInclude Include="src\graphic\mesh\MeshCreator.hpp" />
+    <ClInclude Include="src\graphic\renderer\Renderer2D.hpp" />
+    <ClInclude Include="src\graphic\scene\layer\Layer.hpp" />
+    <ClInclude Include="src\graphic\scene\layer\Layer2D.hpp" />
+    <ClInclude Include="src\graphic\scene\layer\layers.hpp" />
+    <ClInclude Include="src\graphic\scene\layer\console\LoggerLayer.hpp" />
+    <ClInclude Include="src\graphic\entity\Renderable2D.hpp" />
+    <ClInclude Include="src\graphic\renderer\Renderer.hpp" />
+    <ClInclude Include="src\graphic\scene\Scene.hpp" />
+    <ClInclude Include="src\graphic\shader\Shader.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLBufferLayout.hpp" />
     <ClInclude Include="src\graphic\system\OpenGL\GLContext.hpp" />
-    <ClInclude Include="src\graphic\context\RenderingContext.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLDebug.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLIndexBuffer.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLRenderer.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLShader.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLVertexArray.hpp" />
+    <ClInclude Include="src\graphic\system\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="src\input\InputManager.hpp" />
     <ClInclude Include="src\input\KeyCode.hpp" />
     <ClInclude Include="src\input\KeyModifier.hpp" />
     <ClInclude Include="src\input\MouseCode.hpp" />
+    <ClInclude Include="src\math\Matrix2.hpp" />
     <ClInclude Include="src\math\math.hpp" />
+    <ClInclude Include="src\math\Matrix3.hpp" />
+    <ClInclude Include="src\math\Matrix4.hpp" />
     <ClInclude Include="src\math\Vector2.hpp" />
+    <ClInclude Include="src\math\Vector3.hpp" />
+    <ClInclude Include="src\math\Vector4.hpp" />
     <ClInclude Include="src\platform\windows\Clock_win32.hpp" />
+    <ClInclude Include="src\platform\windows\FileReader_win32.hpp" />
     <ClInclude Include="src\platform\windows\KeyCodeTranslator_win32.hpp" />
     <ClInclude Include="src\platform\windows\Window_win32.hpp" />
     <ClInclude Include="src\settings\ApplicationSettings.hpp" />
     <ClInclude Include="src\settings\Settings.hpp" />
+    <ClInclude Include="src\types.hpp" />
+    <ClInclude Include="src\util\io\FileReader.hpp" />
     <ClInclude Include="src\util\logger\Logger.hpp" />
     <ClInclude Include="src\util\logger\logger_base.hpp" />
     <ClInclude Include="src\platform\windows\Logger_win32.hpp" />
@@ -240,14 +314,30 @@
     <ClCompile Include="src\event\window\WindowResizeEvent.cpp" />
     <ClCompile Include="src\event\window\WindowShowEvent.cpp" />
     <ClCompile Include="src\exceptions\CriticalException.cpp" />
+    <ClCompile Include="src\graphic\buffer\BufferLayout.cpp" />
+    <ClCompile Include="src\graphic\buffer\IndexBuffer.cpp" />
+    <ClCompile Include="src\graphic\buffer\VertexArray.cpp" />
+    <ClCompile Include="src\graphic\buffer\VertexBuffer.cpp" />
     <ClCompile Include="src\graphic\context\Context.cpp" />
-    <ClCompile Include="src\graphic\layer\console\LoggerLayer.cpp" />
-    <ClCompile Include="src\graphic\layer\Layer.cpp" />
+    <ClCompile Include="src\graphic\mesh\MeshCreator.cpp" />
+    <ClCompile Include="src\graphic\renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\graphic\scene\layer\console\LoggerLayer.cpp" />
+    <ClCompile Include="src\graphic\scene\layer\Layer.cpp" />
+    <ClCompile Include="src\graphic\renderer\Renderer.cpp" />
+    <ClCompile Include="src\graphic\scene\Scene.cpp" />
+    <ClCompile Include="src\graphic\shader\Shader.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLBufferLayout.cpp" />
     <ClCompile Include="src\graphic\system\OpenGL\GLContext.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLIndexBuffer.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLRenderer.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLShader.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLVertexArray.cpp" />
+    <ClCompile Include="src\graphic\system\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="src\input\InputManager.cpp" />
     <ClCompile Include="src\input\KeyCode.cpp" />
     <ClCompile Include="src\input\MouseCode.cpp" />
     <ClCompile Include="src\platform\windows\Clock_win32.cpp" />
+    <ClCompile Include="src\platform\windows\FileReader_win32.cpp" />
     <ClCompile Include="src\platform\windows\KeyCodeTranslator_win32.cpp" />
     <ClCompile Include="src\platform\windows\Logger_win32.cpp" />
     <ClCompile Include="src\platform\windows\Window_win32.cpp" />

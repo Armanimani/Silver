@@ -5,7 +5,7 @@
 #include "settings\WindowSettings.hpp"
 #include "graphic\context\Context.hpp"
 #include "event\events.hpp"
-#include "math\math.hpp"
+#include "common.hpp"
 
 namespace silver::core
 {
@@ -17,7 +17,8 @@ namespace silver::core
 
 		virtual void create() = 0;
 		virtual void show(const bool state = true) = 0;
-		virtual void update() = 0;
+		virtual void update() const noexcept= 0;
+		virtual void clear() const noexcept= 0;
 		virtual void focus(const bool state = true) noexcept = 0;
 
 		virtual vec2ui mouse_position() const noexcept = 0;
@@ -28,16 +29,16 @@ namespace silver::core
 		bool is_mouse_visible() const noexcept;
 
 		virtual vec2ui screen_resolution() const noexcept = 0;
-		virtual unsigned int screen_resolutionX() const noexcept = 0;
-		virtual unsigned int screen_resolutionY() const noexcept = 0;
+		virtual uint screen_resolutionX() const noexcept = 0;
+		virtual uint screen_resolutionY() const noexcept = 0;
 
-		unsigned int width() const noexcept;
-		unsigned int height() const noexcept;
+		uint width() const noexcept;
+		uint height() const noexcept;
 		vec2ui size() const noexcept;
 		std::string title() const noexcept;
 
-		virtual void set_width(const unsigned int width) noexcept = 0;
-		virtual void set_height(const unsigned int height) noexcept = 0;
+		virtual void set_width(const uint width) noexcept = 0;
+		virtual void set_height(const uint height) noexcept = 0;
 		virtual void set_size(const vec2ui size) noexcept = 0;
 		virtual void set_title(const std::string& title) noexcept = 0;
 

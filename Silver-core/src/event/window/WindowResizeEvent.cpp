@@ -11,12 +11,12 @@ namespace silver::core::event
 		return size_;
 	}
 
-	unsigned int WindowResizeEvent::width() const noexcept
+	uint WindowResizeEvent::width() const noexcept
 	{
 		return size_.x;
 	}
 
-	unsigned int WindowResizeEvent::height()const noexcept
+	uint WindowResizeEvent::height()const noexcept
 	{
 		return size_.y;
 	}

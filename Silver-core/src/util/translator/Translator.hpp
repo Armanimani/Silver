@@ -1,10 +1,10 @@
 #pragma once
 
-#include "input\KeyCode.hpp"
-#include "input\MouseCode.hpp"
-
 #include <string>
 #include <map>
+
+#include "input\KeyCode.hpp"
+#include "input\MouseCode.hpp"
 
 namespace silver::core
 {

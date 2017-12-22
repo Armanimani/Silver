@@ -26,12 +26,12 @@ namespace silver::core::event
 		return (state_ == State::RELEASED);
 	}
 
-	unsigned int KeyboardEvent::x() const noexcept
+	uint KeyboardEvent::x() const noexcept
 	{
 		return pos_.y;
 	}
 
-	unsigned int KeyboardEvent::y() const noexcept
+	uint KeyboardEvent::y() const noexcept
 	{
 		return pos_.x;
 	}

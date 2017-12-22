@@ -24,6 +24,8 @@ namespace silver::core::impl
 		void log_warning(T&& object) const noexcept;
 		template <typename T>
 		void log_information(T&& object) const noexcept;
+		template <typename T>
+		void log_engine(T&& object) const noexcept;
 
 	private:
 		enum class LogLevelColor
@@ -32,6 +34,7 @@ namespace silver::core::impl
 			warning = 14,
 			information = 10,
 			message = 7,
+			engine = 11,
 		};
 
 		static std::unique_ptr<Logger_win32> s_instance_;
@@ -75,6 +78,14 @@ namespace silver::core::impl
 	}
 
 	template <typename T>
+	void Logger_win32::log_engine(T&& object) const noexcept
+	{
+		#ifdef SILVER_LOGGER_ENGINE
+		log_(std::forward<T>(object), LogLevelColor::engine);
+		#endif
+	}
+
+	template <typename T>
 	void Logger_win32::log_(T&& object, LogLevelColor levelColor) const noexcept
 	{
 		auto time = get_time_();
@@ -95,6 +106,11 @@ namespace silver::core::impl
 			case LogLevelColor::information:
 			{
 				std::cout << time + " INFORMATION: " + message << std::endl;
+				break;
+			}
+			case LogLevelColor::engine:
+			{
+				std::cout << time + " Engine: " + message << std::endl;
 				break;
 			}
 			default:

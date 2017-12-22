@@ -1,7 +1,7 @@
 #pragma once
 
 #include "event\window\WindowEvent.hpp"
-#include "math\math.hpp"
+#include "common.hpp"
 
 namespace silver::core::event
 {
